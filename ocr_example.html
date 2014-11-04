@@ -1,0 +1,141 @@
+<html>
+<head>
+    <script type="text/javascript" src="javascripts/lib/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/jquery-ui-1.10.4.widget.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/jquery.sparklificator.js"></script>
+    <script type="text/javascript" src="javascripts/lib/renderers.js"></script>
+    <script type="text/javascript" src="javascripts/lib/d3.min.js"></script>
+    <script type="text/javascript" src="data/ocrData.js"></script>
+    <link type="text/css" rel="stylesheet" href="stylesheets/textStyleOCR.css" ></link>
+</head>
+<body>
+    <div id='ocrHolder'></div>
+   
+    <script type="text/javascript">
+        var weightThresholds = [0.5,1];
+        var colorScale = d3.scale.linear().domain(weightThresholds).range(["orange","#990000"]);
+
+
+
+        function layoutImageAndTranslations(imageURL, translationsArray){
+            var img = $('<img>').attr('src', imageURL)
+                                .css({'position':'aboslute'});
+            $('#ocrHolder').append(img);
+            var translations = $('<div>').css({'position':'aboslute'});
+            $('#ocrHolder').append(translations);
+
+            for(var i=0; i < translationsArray.length; i++){
+                var item = translationsArray[i];
+
+                //position a div for each translation region
+                var itemOutline = $('<div>').attr('class','ocrItem')
+                                            .css({'position':'aboslute',
+                                                  'margin-left':item.x,
+                                                  'margin-top':item.y,
+                                                  'width':item.w,
+                                                  'height':item.h});
+                var firstTranslation = item.t[0].t;
+                var firstWeight = Number(item.t[0].w/100);
+
+                if(firstWeight < weightThresholds[0] || firstWeight > weightThresholds[1]) 
+                    continue;
+
+                //add another div inside it that will actually have the sparkline attached to it.
+                var divToSpark = $('<div class="divToSpark">' + firstTranslation + '</div>')
+                           .css({'width': item.w,
+                                 'height': item.h,
+                                 'background-color': colorScale(firstWeight)});
+                //associate the translations with the inner div.
+                divToSpark[0].data = item.t;
+                itemOutline.append(divToSpark);
+                translations.append(itemOutline)
+            }
+        }
+
+        //Perform layout and add sparklines
+        layoutImageAndTranslations('data/ocrData.jpg', ocrData);
+        $('.divToSpark').sparklificator();
+        $('.divToSpark').sparklificator('option', {renderer:barChart, 
+                                                   data: function(element){
+                                                    return element.data;},
+                                                   position: 'top',
+                                                   height: 15});
+        
+
+        /* Builds a bar chart */
+        function barChart(sparkSpan, width, height, data) {
+            var o = this.options;
+
+            var margin = {top: 0, right: 0, bottom: 0, left: 0},
+                widthVis = width - margin.left - margin.right,
+                heightVis = height - margin.top - margin.bottom;
+            var barWidth = 10;
+
+            var sparkContainer = d3.select(sparkSpan.get(0));
+            sparkContainer.append('svg');
+
+            var y = d3.scale.linear()
+                .domain([0, d3.max(data, function(d) { return d.w })])
+                .range([0, heightVis]);
+
+            var chart = sparkContainer.select('svg')
+                .attr('width', widthVis)
+                .attr('height', heightVis)
+                .attr('class', 'barChart');
+
+            // added for InfoVis Paper pic
+            chart.on('mouseover', fade(1))
+                .on('mouseout', fade(0.1));
+
+            var bar = chart.selectAll('g.bar')
+                    .data(data);
+
+            var gBar = bar.enter().append('g')
+                .attr('class', 'bar')
+                .attr('transform', function(d, i) { return 'translate(' + i * barWidth + ',' + (heightVis - y(d.w)) + ')'; });
+
+            gBar.append('rect')
+                .attr('width', barWidth - 2)
+                .attr('height', function(d) { return y(d.w); });
+
+            gBar.select('rect').style('fill', 'grey');
+            gBar.select('rect').style('opacity', 0.1);
+
+            bar.attr('transform', function(d, i) { return 'translate(' + i * barWidth + ',' + (heightVis - y(d.w)) + ')'; });
+            bar.select('rect').attr('height', function(d) { return y(d.w); });
+
+            bar.exit().remove();
+
+            chart.select('rect').style('fill','#555');
+
+
+            bar.on('mouseover', function(){
+                    //set the label to the current
+                    var container = d3.select(this.parentElement.parentElement.parentElement);
+                    var data = d3.select(this).data();
+                    var label = container.select('.divToSpark');
+                    label.text(data[0].t);
+
+                    container.selectAll('rect').style('fill','lightgrey');
+                    d3.select(this).selectAll('rect').style('fill','orange');
+                })
+               .on('mouseout', function(){
+
+               });
+
+            // added for InfoVis Paper pic
+            // Returns an event handler for fading in the sparkline graph.
+            function fade(opacity) {
+                return function() {
+                    chart.selectAll('rect')
+                        .transition()
+                        .style('opacity', opacity);
+                };
+            }
+        }
+
+    </script>
+
+
+</body>
+</html>
