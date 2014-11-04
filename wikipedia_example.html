@@ -1354,7 +1354,7 @@ mw.config.set({"wgBackendResponseTime":5221,"wgHostname":"mw1100"});
         /**
         * build an area chart
         **/
-        function buildWikiChart(sparkSpan, width, height, data) {
+        function buildWikiChart(sparkSpan, width, height, interaction, data) {
 
             var dataToShow = findNumberOfViews(data, this.element.attr('title'));
             var maxViews = d3.max(data, function(d) {return d.views});
