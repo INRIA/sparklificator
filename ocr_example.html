@@ -55,7 +55,7 @@
         //Perform layout and add sparklines
         layoutImageAndTranslations('data/ocrData.jpg', ocrData);
         $('.divToSpark').sparklificator();
-        $('.divToSpark').sparklificator('option', {renderer:barChart, 
+        $('.divToSpark').sparklificator('option', {renderer:barChartOCR, 
                                                    data: function(element){
                                                     return element.data;},
                                                    position: 'top',
@@ -63,7 +63,7 @@
         
 
         /* Builds a bar chart */
-        function barChart(sparkSpan, width, height, data) {
+        function barChartOCR(sparkSpan, width, height, interaction, data) {
             var o = this.options;
 
             var margin = {top: 0, right: 0, bottom: 0, left: 0},
