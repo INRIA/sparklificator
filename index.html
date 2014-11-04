@@ -8,6 +8,13 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="stylesheets/sparklificatorWebsite.css" media="screen">
+
+    <script type="text/javascript" src="javascripts/lib/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/jquery-ui-1.10.4.widget.min.js"></script>
+    <script type="text/javascript" src="javascripts/lib/jquery.sparklificator.js"></script>
+    <script type="text/javascript" src="javascripts/lib/renderers.js"></script>
+    <script type="text/javascript" src="javascripts/lib/d3.min.js"></script>
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -28,12 +35,279 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <p>More information will be added as soon as Inria has it approved.</p>
+          <p><b>Sparklificator</b> is an open-source jQuery library that eases the process of integrating word-scale visualizations (including, but not limited to, sparklines) into HTML documents. The library provides a range of options for integrating visualizations into text and give you control over their position (on <span class='intro'>top</span>, to the <span class='intro'>right</span>, as an <span class='intro'>overlay</span>), size, and spacing. Sparklificator includes sevaral default visualization types, including small <span class='linechart'>line charts</span> and <span class='barchart'>bar charts</span>, but it can also be used with <span class='piechart'>custom</span> word-scale visualizations created using web-based visualization toolkits such as <a href='http://d3js.org/' target='_blank'>D3</a>. Sparklificator is compatible with these browsers: Chrome, Firefox, IE9+, Opera, Safari.</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Pascal Goffin, Wesley Willett, Jean-Daniel Fekete, Petra Isenberg</p>
+          <h2>Usage Examples</h2>
+          <p>Sparklificator adds word-scale visualizations to targets. These targets can be any jQuery selection, but are most often spans containing one or more words.</p>
+          
+          <p>For example Sparklificator can add a word-scale visualization to the span around the target (word) "Pellentesque" in the sentence below. </p>
+
+          <!-- <h3>HTML</h3> -->
+
+          <pre><code>Vivamus porttitor &ltspan class='spanToSpark'&gtPellentesque&lt/span&gt habitant morbi tristique.</code></pre>
+  
+          <p>To add a word-scale visualization of yearly rainfall to "Pellentesque" we use the following JavaScript:</p>
+
+          <!-- <h3>JavaScript</h3> -->
+
+          <pre><code>var rainData = [20,20,25,40,45,40,46,50,60,80,85,92,99,98,101,102,92,100,105,97,95,82,73,
+                66,55,64,74,98,98,99,93,94,88,85,91,85,50,50,45,40,45,86,89,95,98,100,97,92,89];
+
+var settings = {data: rainData, renderer: classicSparkline, position: 'top',
+                paddingHeight: true, paddingWidth: true, width: 80, height: 25};
+
+$('.spanToSpark').sparklificator();
+$('.spanToSpark').sparklificator('option', settings);</code></pre>
+
+          <p>The <b>settings</b> object describes what settings are used within Sparklificator. The settings specify the visualization's <b>data</b> (here, the array "rainData"), <b>size</b> (here 80px by 25px), <b>position</b> ("top"), and <b>renderer</b> (here, we specify a small line chart using the "classicSparkline" renderer from the renderer.js file). The settings also specify whether to add <b>padding</b> around the visualization or allow it to <b>overlap</b> the text (here, we add vertical and horizontal padding). A full description of the <a href='#availableOptions'>available options</a> is provided below.The last two lines use jQuery to select the target&mdash;in this case $(.spanToSpark')&mdash; and add word-scale visualizations with these settings.</p>
+
+          <p>This is the result:</p>
+
+<pre class='example00'>Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> habitant morbi tristique.</pre>
+
+          <p>Sparklificator depends on jQuery and jQueryUI, and both recent versions of each library must be included.  to be added to the header of the HTML page.</p>
+            <ul>
+              <li>jquery.sparklificator.js
+                <ul class='includes'>
+                  <li><code>&ltscript type="text/javascript" src="../jquery.sparklificator.js"&gt&lt/scrip&gt</code>
+                </ul>
+              <li>jquery-1.11.0.min.js (download the latest <a href='http://jquery.com/download/' target='_blank'>jQuery library</a>)
+                <ul class='includes'>
+                  <li><code>&ltscript type="text/javascript" src="jquery-1.11.0.min.js"&gt&lt/script&gt</code>
+                </ul>
+              <li>jquery-ui-1.10.4.widget.min.js (download the latest <a href='http://jqueryui.com/download/' target='_blank'>jQuery UI widget library</a>)
+                <ul class='includes'>
+                  <li><code>&ltscript type="text/javascript" src="jquery-ui-1.10.4.widget.min.js"&gt&lt/script&gt</code>
+                </ul>
+              <li>renderers.js
+                <ul class='includes'>
+                  <li><code>&ltscript type="text/javascript" src="renderers.js"&gt&lt/script&gt</code>
+                </ul>
+              <li>d3.min.js (download the latest <a href='https://github.com/mbostock/d3/releases' target='_blank'>D3 library</a>)
+                <ul class='includes'>
+                  <li><code>&ltscript type="text/javascript" src="d3.min.js"&gt&lt/script&gt</code>
+                </ul>
+            </ul>
+
+<!-- <pre><code>&ltscript type="text/javascript" src="../jquery.sparklificator.js"&gt&lt/script&gt
+&ltscript type="text/javascript" src="jquery-1.11.0.min.js"&gt&lt/script&gt
+&ltscript type="text/javascript" src="jquery-ui-1.10.4.widget.min.js"&gt&lt/script&gt
+&ltscript type="text/javascript" src="renderers.js"&gt&lt/script&gt
+&ltscript type="text/javascript" src="d3.min.js"&gt&lt/script&gt</code></pre> -->
+
+            </p><strong>jquery.sparklificator.js</strong> contains the main JavaScript code for the Sparklificator. Additionally, <b>jquery-1.11.0.min.js, jquery-ui-1.10.4.widget.min.js</b> are needed for the jQuery part. To use the provided default renderers, two additional libraries have to be included: <b>renderers.js, d3.min.js</b>. Moreover, there is also the option to write your custom renderer using your own choice of web-based visualization toolkit.</p>
+
+
+          <h3>Calling Sparklificator</h2>
+          <p>Sparklificator can be called in several different ways. Here three examples of how Sparklificator can be called.</p>
+
+          <p>Each available option can be passed as a separate argument:</p>
+          <pre><code>$('.className').sparklificator();
+$('.className').sparklificator('option', 'data', [5,8,2,6,4]);
+$('.className').sparklificator('option', 'renderer', classicSparkline);</code></pre>
+
+          <p>The available options can also be passed as a key-value array:</p>
+<pre><code>$('.className').sparklificator();
+$('.className').sparklificator('option', {'data': [5,8,2,6,4], 
+                                          'renderer': classicSparkline,
+                                          'position': 'top'});</code></pre>
+
+          <p>The shorthand form of the previous call is to remove the first argument:</p>
+<pre><code>$('.className').sparklificator();
+$('.className').sparklificator({'data': [5,8,2,6,4],
+                                'renderer': classicSparkline,
+                                'position': 'baseline'});</code></pre>
+
+<h2>General Example</h2>
+              
+            <p>This is an example using a mix of Sparklificator's available options.</p>
+
+<pre class='example02'>Maecenas orci urna, feugiat ut dolor in, pharetra gravida <span class='spanToSpark06'>lorem</span>. Nullam lorem
+lorem, tincidunt vitae <span class='spanToSpark01'>vehicula</span> nec, porta et justo. Quisque at lacus dolor. Vivamus 
+porttitor sollicitudin nibh non sodales. <span class='spanToSpark02'>Pellentesque</span> habitant morbi tristique senectus
+et netus et malesuada fames ac turpis egestas. Morbi pellentesque magna et cursus
+porttitor. <span class='spanToSpark03'>Integer</span> <span class='spanToSpark04'>orci</span> dui, fermentum in semper eu, imperdiet id 
+metus. Vestibulum sed tincidunt libero. Aliquam nec sodales eros. Sed quam velit,
+facilisis sed sagittis et, id <span class='spanToSpark05'>nulla</span>.</pre>
+
+
+          <h2 id='availableOptions'>Available Options</h2>
+
+          <p>The available options for Sparklificator are:</p>
+          <ul>
+            <li><a href='#position'>position</a>
+            <li><a href='#width'>width</a>
+            <li><a href='#height'>height</a>
+            <li><a href='#data'>data</a>
+            <li><a href='#paddingWidth'>paddingWidth</a>
+            <li><a href='#paddingHeight'>paddingHeight</a>
+            <li><a href='#stackingOrder'>stackingOrder</a>
+            <li><a href='#hoverInteraction'>hoverInteraction</a>
+            <li><a href='#renderer'>renderer</a>
+          </ul>
+
+
+          <h2>Default options</h2>
+          <p>The current default options for Sparklificator are:</p>
+          <ul>
+            <li>position: 'top'
+            <li>width: 100 (in pixels)
+            <li>height: 50 (in pixels)
+            <li>data: []
+            <li>paddingWidth: true
+            <li>paddingHeight: false
+            <li>stackingOrder: 'front'
+            <li>hoverInteraction: false
+            <li>renderer: function(){}
+          </ul>
+          <p>At a minimum, you must specify data and a renderer.</p>
+
+          <h3 id='position'>position: <i>pre-defined value</i> | {'top': <i>value</i>, 'left': <i>value</i>}</h3>
+
+          <figure>
+            <img src='images/positionExample2.jpg'>
+            <figcaption>Figure 1: The "top", "right" and "baseline" position.</figcaption>
+          </figure>
+
+          <p>The <b>position</b> setting (see Figure 1) has three pre-defined values: "top", "right", "baseline". The <b>"top"</b> position places the visualization's bottom-left corner at the top-left of the target, the <b>"right"</b> position places the bottom-left corner at the bottom-right of the visualization, and the <b>"baseline"</b> option aligns the lower-left corners of the visualization and target. You may also provide a function that returns a string containing any of these pre-defined values.</p>
+
+          <p>Alternatively, can directly provide an object with exact "top" and "left" offsets for the visualization or a <b>function</b> that returns an object with "top" and "left" offsets. </p>
+
+          <p>An example for such a function for setting position :</p>
+
+<pre><code>var settings = {'position': crazyPosition, ...};
+
+$('.spanToSpark').sparklificator();
+$('.spanToSpark').sparklificator('option', settings);
+
+function crazyPosition() {
+    var height = -50;
+    return {'top': height-10, 'left': 20};
+}</code></pre>
+
+          <p>or</p>
+
+<pre><code>var settings = {'position': {'top': 20, 'left': 50}, ...};
+
+$('.spanToSpark').sparklificator();
+$('.spanToSpark').sparklificator('option', settings);</code></pre>
+
+          <h3 id='width'>width: <i>value</i></h3>
+          <p>The <b>width</b> setting takes a number without unit (Sparklificator assumes all measurements are in pixels). VYou can also specify a function that returns a number, e.g.: </p>
+
+<pre><code>var settings = {..., 'width': function() { var aWidth = 50; return aWidth*2; }, ...};</code></pre>
+
+
+
+          <h3 id='height'>height: <i>value</i></h3>
+          <p>The <b>height</b> setting takes a value without units similar to the width setting. You can also specify a function that returns a number, e.g.: </p>
+
+<pre><code>var settings = {..., 'height': function() { var aHeight = 10; return aHeight*2; }, ...};</code></pre>
+
+
+          <h3 id='data'>data: [<i>value</i>] | function </h3>
+          <p>The <b>data</b> setting provides the data that will be used for the word-scale visualization.</p>
+          <p>It can be either an array:</p>
+
+          <pre><code>[23, 53, 6, 1, 4, 8, 10, 5772, 12, 3]</pre></code>
+
+          <p>Or it can be a function that returns an array.</p>
+
+
+          <h3 id='paddingWidth'>paddingWidth: <i>Boolean</i></h3>
+
+          <figure>
+            <img src='images/variablesExample.jpg'>
+            <figcaption>Figure 2: Illustration of horizontal and vertical padding in relation to the target of the word-scale visualization.</figcaption>
+          </figure>
+
+          <p>The <b>paddingWidth</b> setting (see Figure 2) determines whether the word-scale visualization is allowed to overlap horizontally with other word-scale visualizations, or if it should be padded to prevent overlaps. If paddingWidth is set to <b>true</b> Sparklificator will add padding after any target that is shorter than its visualization to ensure that the word-scale visualization will not overlap with any others.</p>
+
+        
+          <p>Example for <b>paddingWidth: false</b></p>
+<pre class='example04'>Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> <span class='spanToSpark'>habitant</span> morbi tristique.</pre>
+
+          <p>Example for <b>paddingWidth: true</b></p>
+<pre class='example03'>Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> <span class='spanToSpark'>habitant</span> morbi tristique.</pre>
+
+
+          <h3 id='paddingHeight'>paddingHeight: <i>Boolean</i></h3>
+          <p>The <b>paddingHeight</b> (see Figure 2) setting determines whether the word-scale visualization is allowed to overlap vertically with other text, or if it should be padded to prevent overlaps. If paddingHeight is set to <b>true</b> Sparklificator will add padding above to eliminate any overlap between word-scale visualization and the text line above.</p>
+
+          <p>Example for <b>paddingHeight: false</b> and paddingWidth: true</p>
+<pre class='example05'>Nullam lorem lorem, tincidunt vitae vehicula nec, porta et justo.
+Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> habitant morbi tristique.</pre>
+
+          <p>Example for <b>paddingHeight: true</b> and paddingWidth: true</p>
+<pre class='example06'>Nullam lorem lorem, tincidunt vitae vehicula nec, porta et justo.
+Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> habitant morbi tristique.</pre>
+
+
+          <h3 id='stackingOrder'>stackingOrder: 'front' | 'back'</h3>
+          <p>The <b>stackingOrder</b> setting can be used to set the word-scale visualization in <b>front</b> of the target or behind the target (<b>back</b>). </p>
+          
+          <p>Example for <b>stackingOrder: back</b></p>
+<pre class='example07'>Nullam lorem lorem, tincidunt vitae vehicula nec, porta et justo.
+Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> habitant morbi tristique.</pre>
+
+          <p>Example for <b>stackingOrder: front</b></p>
+<pre class='example08'>Nullam lorem lorem, tincidunt vitae vehicula nec, porta et justo.
+Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> habitant morbi tristique.</pre>
+
+          <h3 id='hoverInteraction'>hoverInteraction: <i>Boolean</i></h3>
+          <p>The <b>hoverInteraction</b> setting determines whether hover interaction for the word-scale visualization is allowed or not. If hoverInteraction is <b>true</b> hovering over the target or the word-scale visualization will unhide the word-scale visualization and hide the target of the word-scale visualization. For more complicated interaction you will have to implement your own handler.</p>
+
+          <p>Example for <b>hoverInteraction: true</b></p>
+<pre class='example09'>Nullam lorem lorem, tincidunt vitae vehicula nec, porta et justo.
+Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> habitant morbi tristique.</pre>
+
+          <p>Example for <b>hoverInteraction: false</b></p>
+<pre class='example10'>Nullam lorem lorem, tincidunt vitae vehicula nec, porta et justo.
+Vivamus porttitor <span class='spanToSpark'>Pellentesque</span> habitant morbi tristique.</pre>
+
+
+
+          <h3 id='renderer'>renderer: <i>function</i></h3>
+          <p>The <b>renderer</b> setting specifies the function that takes the data and draws the word-scale visualization. Several example renderers are provided in the <b>renderer.js</b> file, but you can also create your own custom renderers. The default renderers in renderer.js are all implemented using the <a href='http://d3js.org' target='_blank'>D3 visualization library</a>, but you can use any tools or libraries you wish.</p>
+
+          <p>The signature of the renderer function should look like this:</p>
+
+<pre><code>renderer_function_name(target, width, height, hoverInteraction, data)</code></pre>
+          
+          <p>where <b>target</b> is the target of the word-scale visualization, <b>width</b> is the width of the visualization, <b>height</b> is the height of the visualization, <b>hoverInteraction</b> is if hover interaction is allowed and <b>data</b> is the data that is visualized. <b>this.element</b> and <b>this.options</b> are available in the renderer function. this.element gives you access to the current target of the visualization. this.options gives you access to the settings of the Sparklificator.</p>
+
+          <p>The default renderers in renderer.js provide more hints on how to write your own renderer.</p>
+
+
+
+          <h2>Word-scale Visualization applications</h2>
+
+          <!--A separate page for each of them with a little preview of how it looks like (if that can be done)-->
+
+          <p>We have used Sparklificator to build several very different example applications including:</p>
+          <ul>
+            <li><a href='../wikipedia_example.html'>Wikipedia example</a>
+              <p>Word-scale visualizations that provide information scent to help viewers decide whether or not they are interested in following an article linked to from a Wikipedia page. Small horizontal bars show how frequently each linked page has been visited in the last 30 days compared to the most visited link on the page. You can also hover each link to show exactly how many times it has been visited.</p>
+            <li><a href='../ocr_example.html'>OCR example</a>
+              <p>Word-scale visualizations overlaid onto a scanned World War I artifact (courtesy of J. Benes). Words in the scanned document are overlaid with colored rectangles that express certainty of the OCR text recognition applied to the word. Small greyed-out bar charts also appear in the space between words. Each bar represents one potential transcription of the word. The most certain transcription is written in the colored rectangle. When the mouse hovers over the bars of the bar chart the transcription of the word changes. The color of the bar gives an indication on the certainty of the OCR coupled to that specific transcription.</p>
+          </ul> 
+
+
+          <h2>Further Information</h2>
+
+          <p>You can find more information on our <a href='http://www.aviz.fr/Research/Sparklificator' target='_blank'>research website</a> at <a href='http://www.aviz.fr' target='_blank'>Aviz</a>, including information about our publications and about word-scale visualizations in general.</p>
+
+
+          <h2><a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h2>
+
+          <p>Pascal Goffin, Wesley Willett, Jean-Daniel Fekete, Petra Isenberg</p>
+          <p>Released under an <a href="https://github.com/INRIA/sparklificator/blob/master/LICENSE">MIT LICENCE</a></p>
+
+
+
+
+
         </section>
 
         <aside id="sidebar">
@@ -48,21 +322,174 @@
 
           <p class="repo-owner"><a href="https://github.com/INRIA/sparklificator"></a> is maintained by <a href="https://github.com/INRIA">INRIA</a>.</p>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using an adapted version of the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
         </aside>
       </div>
     </div>
 
-            <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-52311558-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+    <script type="text/javascript">
+
+      var settingsIntro = {data: generateDataTrend,
+        renderer: function(element, newWidth, newHeight, interaction, data) {
+          if (element.siblings()[0].innerHTML == 'overlay') {
+            return classicSparkline(element, newWidth, newHeight, true, data);
+          } else { 
+            return classicSparkline(element, newWidth, newHeight, interaction, data); 
+          } },
+           position: function(element) { return choosePosition(element.innerHTML); }, paddingHeight: true, paddingWidth: true, width: 50, height: 20};
+      $('.intro').sparklificator();
+      $('.intro').sparklificator('option', settingsIntro);
+
+      var linechartIntro = {data: generateDataTrend, renderer: classicSparkline, position: 'right', paddingHeight: true, paddingWidth: true, width: 50, height: 25};
+      $('.linechart').sparklificator();
+      $('.linechart').sparklificator('option', linechartIntro);
+
+      var barchartIntro = {data: generateDataTrend, renderer: barChart, position: 'right', paddingHeight: true, paddingWidth: true, width: 50, height: 25};
+      $('.barchart').sparklificator();
+      $('.barchart').sparklificator('option', barchartIntro);
+
+      var piechartIntro = {data: generateDataTrend, renderer: pieChart, position: 'right', paddingHeight: true, paddingWidth: true, width: 30, height: 25};
+      $('.piechart').sparklificator();
+      $('.piechart').sparklificator('option', piechartIntro);
+
+
+      var rainData = [20,20,25,40,45,40,46,50,60,80,85,92,99,98,101,102,92,100,105,97,95,82,73,
+              66,55,64,74,98,98,99,93,94,88,85,91,85,50,50,45,40,45,86,89,95,98,100,97,92,89];
+
+      var settings00 = {data: rainData, renderer: classicSparkline, position: 'top',
+                paddingHeight: true, paddingWidth: true, width: 80, height: 25};
+      $('.example00 .spanToSpark').sparklificator();
+      $('.example00 .spanToSpark').sparklificator('option', settings00);
+
+
+      // var settings01 = {data: generateDataTrend, renderer: classicSparkline, position: 'top', paddingHeight: true, width: 80, height: 25};
+      // $('.example01 .spanToSpark').sparklificator();
+      // $('.example01 .spanToSpark').sparklificator('option', settings01);
+
+
+      var settings0201 = {data: generateDataTrend, renderer: classicSparkline, position: 'top', paddingHeight: true, paddingWidth: false, width: 100, height: 25};
+      $('.example02 .spanToSpark01').sparklificator();
+      $('.example02 .spanToSpark01').sparklificator('option', settings0201);
+
+      var settings0202 = {data: generateDataTrend, renderer: classicSparkline, hoverInteraction: true, position: 'baseline', paddingHeight: true, paddingWidth: true, width: 80, height: 25};
+      $('.example02 .spanToSpark02').sparklificator();
+      $('.example02 .spanToSpark02').sparklificator('option', settings0202);
+
+      var settings0203 = {data: generateDataTrend, renderer: classicSparkline, position: 'right', paddingHeight: true, paddingWidth: true, width: 80, height: 25};
+      $('.example02 .spanToSpark03').sparklificator();
+      $('.example02 .spanToSpark03').sparklificator('option', settings0203);
+
+      var settings0204 = {data: generateDataTrend, renderer: classicSparkline, hoverInteraction: true, position: 'baseline', paddingHeight: true, paddingWidth: true, width: 80, height: 15};
+      $('.example02 .spanToSpark04').sparklificator();
+      $('.example02 .spanToSpark04').sparklificator('option', settings0204);
+
+      var settings0205 = {data: generateDataTrend, renderer: barChart, position: 'top', paddingHeight: true, paddingWidth: true, width: 80, height: 25};
+      $('.example02 .spanToSpark05').sparklificator();
+      $('.example02 .spanToSpark05').sparklificator('option', settings0205);
+
+      var settings0206 = {data: generateDataTrend, renderer: pieChart, position: 'right', paddingHeight: true, paddingWidth: true, width: 30, height: 25};
+      $('.example02 .spanToSpark06').sparklificator();
+      $('.example02 .spanToSpark06').sparklificator('option', settings0206);
+
+
+      var settings03 = {data: generateDataTrend, renderer: classicSparkline, position: 'top', paddingWidth: true, width: 150, height: 25};
+      $('.example03 .spanToSpark').sparklificator();
+      $('.example03 .spanToSpark').sparklificator('option', settings03);
+
+      var settings04 = {data: generateDataTrend, renderer: classicSparkline, position: 'top', paddingWidth: false, width: 150, height: 25};
+      $('.example04 .spanToSpark').sparklificator();
+      $('.example04 .spanToSpark').sparklificator('option', settings04);
+
+      var settings05 = {data: generateDataTrend, renderer: classicSparkline, position: 'top', paddingHeight: false, width: 150, height: 30};
+      $('.example05 .spanToSpark').sparklificator();
+      $('.example05 .spanToSpark').sparklificator('option', settings05);
+
+      var settings06 = {data: generateDataTrend, renderer: classicSparkline, position: 'top', paddingHeight: true, width: 150, height: 30};
+      $('.example06 .spanToSpark').sparklificator();
+      $('.example06 .spanToSpark').sparklificator('option', settings06);
+
+      var settings07 = {data: [50,50,35,30,8,2,9,3,9,23,35,55,92,99,98,101,102,92,100,105,97,95,92,93,
+              96,105,104,94,98,45,45,35,35,20,5,5,1,8,8,2,9,3], renderer: classicSparkline, position: 'baseline', paddingHeight: false, paddingWidth: false, width: 100, height: 30, stackingOrder: 'back'};
+      $('.example07 .spanToSpark').sparklificator();
+      $('.example07 .spanToSpark').sparklificator('option', settings07);
+
+      var settings08 = {data: [50,50,35,30,8,2,9,3,9,23,35,55,92,99,98,101,102,92,100,105,97,95,92,93,
+              96,105,104,94,98,45,45,35,35,20,5,5,1,8,8,2,9,3], renderer: classicSparkline, position: 'baseline', paddingHeight: false, paddingWidth: false, width: 100, height: 30, stackingOrder: 'front'};
+      $('.example08 .spanToSpark').sparklificator();
+      $('.example08 .spanToSpark').sparklificator('option', settings08);
+
+      var settings09 = {data: [50,50,35,30,8,2,9,3,9,23,35,55,92,99,98,101,102,92,100,105,97,95,92,93,
+              96,105,104,94,98,45,45,35,35,20,5,5,1,8,8,2,9,3], renderer: classicSparkline, hoverInteraction: true, position: 'baseline', paddingHeight: false, paddingWidth: false, width: 100, height: 30};
+      $('.example09 .spanToSpark').sparklificator();
+      $('.example09 .spanToSpark').sparklificator('option', settings09);
+
+      var settings10 = {data: [50,50,35,30,8,2,9,3,9,23,35,55,92,99,98,101,102,92,100,105,97,95,92,93,
+              96,105,104,94,98,45,45,35,35,20,5,5,1,8,8,2,9,3], renderer: classicSparkline, hoverInteraction: false, position: 'baseline', paddingHeight: false, paddingWidth: false, width: 100, height: 30};
+      $('.example10 .spanToSpark').sparklificator();
+      $('.example10 .spanToSpark').sparklificator('option', settings10);
+
+
+      /* Sample data generator */
+      function generateDataTrend() {
+
+          var numberOfDataPoints = 50;
+
+          var data = [];
+
+          if (this.options.renderer.name === 'pieChart') { 
+              numberOfDataPoints=6
+
+              for(var i = 0; i < numberOfDataPoints; i++) data.push(Math.random());
+              
+          } else {
+
+              var sum = Math.floor(Math.random()*100);
+              
+              for(var j = 0; j < numberOfDataPoints; j++) {
+                  var randomNumberBetweenMinus10and9 = Math.floor((Math.random()*20)-10);
+
+                  var tmpSum = sum + randomNumberBetweenMinus10and9;
+                  if (tmpSum < 0) {
+                      tmpSum = sum + Math.abs(randomNumberBetweenMinus10and9);
+                  }
+
+                  sum = tmpSum;
+
+                  data.push(sum);
+              }
+          }
+
+          return data;
+      }
+
+
+      function choosePosition(position) {
+
+        thePosition = position;
+
+        if (thePosition == 'top') {
+          return 'top';
+        } else if (thePosition == 'right') {
+          return 'right';
+        } else if (thePosition == 'overlay') {
+          return 'baseline';
+        }
+
+      }
+
+    </script>
+
+
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-52311558-1");
+      pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
 
   </body>
 </html>

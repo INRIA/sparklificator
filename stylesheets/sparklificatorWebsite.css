@@ -1,0 +1,28 @@
+p.example1 {
+	line-height: 1;
+}
+
+.spanToSpark, .spanToSpark01, .spanToSpark02, .spanToSpark03, .spanToSpark04, .spanToSpark05 {
+	background-color: #b0e0e6;
+}
+
+.intro, .barchart, .linechart, .piechart {
+	background-color: #b0e0e6;
+}
+
+ul.includes {
+	list-style-type: none;
+	margin-bottom: 10px;
+}
+
+img {
+	width: 400px;
+}
+
+figcaption {
+	font-size: 0.7em;
+}
+
+figure {
+	margin: 15px 0px;
+}

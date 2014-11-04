@@ -1,0 +1,24 @@
+/* BODY */
+
+body {
+	margin: 50px;
+}
+
+
+div.text {
+	padding: 0px;
+	margin: 0px;
+}
+
+#ocrHolder div, #ocrHolder img{
+    position: absolute;
+}
+
+.divToSpark{
+    //border: solid 1px black;
+    font: 14pt monospace;
+    text-shadow: -1px -1px white, 1px -1px white, -1px 1px white, 1px 1px white;
+    opacity: 0.8;
+    padding: 0.2em;
+    box-sizing: border-box;   
+}
