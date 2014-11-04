@@ -1,5 +1,11 @@
 /**
-* Sparklificator v1.0
+* Sparklificator jQuery plugin version v1.0.0
+*
+* (c) 2014 Pascal Goffin, Wesley Willett, Jean-Daniel Fekete, and Petra Isenberg
+*
+* http://inria.github.io/sparklificator
+*
+* Released under MIT license.
 **/
 
 
