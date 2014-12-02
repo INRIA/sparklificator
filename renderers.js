@@ -1,5 +1,5 @@
 /**
-* D3 Renderers version v1.0.0
+* D3 Renderers version v1.0.1
 *
 * (c) 2014 Pascal Goffin, Wesley Willett, Jean-Daniel Fekete, and Petra Isenberg
 *
@@ -51,6 +51,7 @@ function classicSparkline(sparkSpan, width, height, interaction, data) {
 	    .y(function(d) { return y(d); });
 
 	var chart = sparkContainer.select('svg')
+			.style('position', 'absolute')
 			.attr('width', widthVis + 'px')
 			.attr('height', heightVis + 'px');
 
@@ -144,6 +145,7 @@ function barChart(sparkSpan, width, height, interaction, data) {
 		.range([0, heightVis]);
 
 	var chart = sparkContainer.select('svg')
+		.style('position', 'absolute')
 		.attr('width', widthVis)
 		.attr('height', heightVis)
 		.attr('class', 'barChart');
@@ -237,6 +239,7 @@ function pieChart(sparkSpan, width, height, interaction, data) {
 	sparkContainer.append('svg');
 
 	var chart = sparkContainer.select('svg')
+		.style('position', 'absolute')
 	    .attr('width', widthVis)
 	    .attr('height', heightVis);
 

@@ -64,10 +64,6 @@
 
 	    	//set the other basic properties of the container and sparkline
 	    	sparklineSPAN.css('position', 'absolute');
-	    	
-			// compute and set the new position
-			// does not need this because with the second call to sparklificator the setNewPosition is called anyway
-			//this._setNewPosition(sparklineSPAN, sparklificatedSPAN);
 
 			return this;
 		},
